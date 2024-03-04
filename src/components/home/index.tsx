@@ -64,17 +64,8 @@ export default function Home() {
                 tgt_lang
             };
 
-            // const response = await axios({
-            //     method: 'POST',
-            //     url: '/api/convert',
-            //     data: obj,
-            //     // headers: {
-            //     //     'Content-Type': 'application/json'
-            //     // }
-            // }) as any;
-
             const response = await postApi({
-                url: 'convert',
+                url: 'translate',
                 data: obj,
                 successMessage: "Translation completed"
             }) as any;
@@ -115,7 +106,7 @@ export default function Home() {
                             <SelectGroup>
                                 {
                                     languages.map((m) => (
-                                        <SelectItem key={m.code} value={m.code} disabled={tgt_lang.some(s => s === m.code)}>
+                                        <SelectItem key={m.code} value={m.code}>
                                             {m.language}
                                         </SelectItem>
                                     ))
@@ -128,6 +119,7 @@ export default function Home() {
                 <div>
                     <Label>Enter text to translate</Label>
                     <Textarea
+                        value={text}
                         className='w-full'
                         onChange={(e) => {
                             updateProperties({
@@ -144,7 +136,8 @@ export default function Home() {
                             supportedTranslations.map((m) => (
                                 <div key={m.code} className='flex gap-2 items-center'>
                                     <Switch
-                                        id={m.code}
+                                        key={`${src_lang}-${m.code}`}
+                                        id={`${src_lang}-${m.code}`}
                                         disabled={m.code === src_lang}
                                         onCheckedChange={(value) => {
                                             if (value) {

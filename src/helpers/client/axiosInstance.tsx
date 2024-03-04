@@ -15,6 +15,7 @@ const axiosInstance = () => {
 
     const axiosInstanceInner = axios.create({
         baseURL: `${location.origin}/api`,
+        timeout: 1000 * 30  //  1000 miliseconds * your desired seconds
         // headers
     });
 
