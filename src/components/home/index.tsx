@@ -114,7 +114,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="max-w-xl">
+            <div className="max-w-2xl m-auto">
                 {
                     translations.length > 0 ? <TranslatedList translations={translations} /> : ''
                 }

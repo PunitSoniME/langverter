@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import { useCopyToClipboard } from 'react-helper-hooks'
 import { toast } from 'sonner';
 
-export default function CopyToClipboardButton({ text }) {
+export default function CopyToClipboardButton({ text, message = '' }) {
 
     const copyToClipboard = useCopyToClipboard();
 
@@ -15,7 +15,7 @@ export default function CopyToClipboardButton({ text }) {
             size="icon"
             onClick={() => {
                 copyToClipboard(text).then(() => {
-                    toast.success('Translation copied');
+                    toast.success(message || 'Translation copied');
                 }).catch((error) => {
                     toast.error(error.message);
                 });

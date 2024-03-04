@@ -25,7 +25,10 @@ export default function TranslatedList({ translations }) {
                                 {m.translation}
                             </TableCell>
                             <TableCell>
-                                <CopyToClipboardButton text={m.translation} />
+                                <CopyToClipboardButton
+                                    text={m.translation}
+                                    message={`${m.language} translation copied`}
+                                />
                             </TableCell>
                         </TableRow>
                     ))

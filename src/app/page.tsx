@@ -7,7 +7,7 @@ const Home = dynamic(() => import("@/components/home"));
 export default function HomePage() {
   return (
     <>
-      <div className="mb-2 bg-secondary">
+      <div className="mb-4 bg-secondary">
 
         <div className="min-h-[200px] flex items-center justify-center gap-3 flex-col m-auto max-w-4xl p-12">
           <Large className="text-center text-xl tracking-wide">Empowering Communication with AI Precision.</Large>
