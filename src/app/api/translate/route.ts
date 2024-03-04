@@ -24,18 +24,15 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
             return hf.translation({
                 model: models[src_lang][m],
                 inputs: text,
+            }).then(({ translation_text }) => {
+                return { language: languages[m], translation: translation_text }
+            }).catch((ex) => {
+                throw new Error(ex.message)
             })
         });
 
         return Promise.all(promises).then((result) => {
-
-            return result.map((res, index) => {
-                return {
-                    language: languages[tgt_lang[index]],
-                    translation: res.translation_text
-                }
-            });
-
+            return result;
         }).catch((ex) => {
             throw new Error(ex.message);
         })
