@@ -53,7 +53,7 @@ export default function RootLayout({
   ]);
 
   return (
-    <html lang="en" id="app-id" suppressHydrationWarning>
+    <html lang="en" id="app-id" suppressHydrationWarning className="scroll-smooth">
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

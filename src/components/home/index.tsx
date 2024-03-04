@@ -3,7 +3,6 @@
 import React, { Fragment, useReducer } from 'react'
 import { Button } from "@/components/ui/button";
 import { AppSpinnerIcon } from '@/icons';
-import axios from 'axios';
 import { Textarea } from '../ui/textarea';
 import {
     Select,
@@ -28,6 +27,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { useRouter } from 'next/navigation';
 
 const languages = getSupportedSourceLanguages();
 
@@ -35,6 +35,7 @@ const defaultSourceValue = languages.find(d => d.language === 'English')?.code |
 
 export default function Home() {
 
+    const router = useRouter();
     const [properties, updateProperties] = useReducer((prev, next) => {
         return { ...prev, ...next };
     }, {
@@ -50,7 +51,7 @@ export default function Home() {
 
     const disableTranslateButton = loading === true || text.trim() === '' || tgt_lang.length === 0;
 
-    const convert = async () => {
+    const translate = async () => {
         try {
             updateProperties({
                 loading: true,
@@ -73,6 +74,10 @@ export default function Home() {
                 loading: false,
                 translations: response
             });
+
+            setTimeout(() => {
+                router.replace('#translations');
+            }, 500)
         } catch (ex) {
             updateProperties({
                 loading: false
@@ -162,7 +167,7 @@ export default function Home() {
                 <Button
                     className='w-full my-2'
                     disabled={disableTranslateButton}
-                    onClick={convert}
+                    onClick={translate}
                 >
                     {
                         loading ? <AppSpinnerIcon className="animate-spin" /> : 'Start Translation'
@@ -170,7 +175,7 @@ export default function Home() {
                 </Button>
 
                 {
-                    translations.length > 0 ? <Table>
+                    translations.length > 0 ? <Table id="translations">
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[150px]">Language</TableHead>

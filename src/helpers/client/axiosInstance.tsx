@@ -30,6 +30,12 @@ const axiosInstance = () => {
             resolve(response);
         }), (error) => {
 
+            if (error.code === 'ERR_BAD_RESPONSE') {
+                return new Promise((_, reject) => {
+                    reject({ type: "error", message: error.response.data });
+                })
+            }
+
             if (error.message === "Network Error") {
                 return new Promise((_, reject) => {
                     reject({ type: "error", message: "Api Not Working" });

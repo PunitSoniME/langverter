@@ -43,7 +43,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
     } catch (ex) {
         console.log(ex);
-        throw new Error(ex);
+        throw new Error(ex.message);
     }
 });
 
