@@ -21,10 +21,13 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
         const { text, src_lang, tgt_lang } = await req.json();
 
         const promises = tgt_lang.map((m: string) => {
-            return hf.translation({
+
+            const payload = {
                 model: models[src_lang][m],
                 inputs: text,
-            }).then(({ translation_text }) => {
+            }
+
+            return hf.translation(payload).then(({ translation_text }) => {
                 return { language: languages[m], translation: translation_text }
             }).catch((ex) => {
                 throw new Error(ex.message)

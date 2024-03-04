@@ -1,33 +1,17 @@
 'use client';
 
-import React, { Fragment, useReducer } from 'react'
+import React, { useReducer } from 'react'
 import { Button } from "@/components/ui/button";
 import { AppSpinnerIcon } from '@/icons';
-import { Textarea } from '../ui/textarea';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-// import { languages } from '@/helpers/client/utils';
-import { Label } from '../ui/label';
-import { Switch } from '../ui/switch';
 import { getSourceTargetPair, getSupportedSourceLanguages } from '@/helpers/server/utils';
 import { postApi } from '@/helpers/client/utils';
-
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const SourceLanguage = dynamic(() => import('./SourceLanguage'));
+const InputToTranslate = dynamic(() => import('./InputToTranslate'));
+const LanguageSelection = dynamic(() => import('./LanguageSelection'));
+const TranslatedList = dynamic(() => import('./TranslatedList'));
 
 const languages = getSupportedSourceLanguages();
 
@@ -86,119 +70,54 @@ export default function Home() {
     }
 
     return (
-        <div className="max-w-[500px] m-auto">
-            <div className="flex flex-col gap-3">
+        <div className="space-y-3">
 
-                <div>
-                    <Label>Select source language</Label>
-                    <Select
-                        defaultValue={src_lang}
-                        onValueChange={(selected) => {
+            <div className="max-w-[500px] m-auto">
+                <div className="flex flex-col gap-3">
+
+                    <SourceLanguage defaultValue={src_lang} onLanguageChange={(selected) => {
+                        updateProperties({
+                            text: '',
+                            tgt_lang: [],
+                            translations: [],
+                            src_lang: selected,
+                            supportedTranslations: getSourceTargetPair(selected)
+                        })
+                    }} />
+
+                    <InputToTranslate text={text} onChange={(e) => {
+                        updateProperties({
+                            text: e.target.value
+                        })
+                    }} />
+
+                    <LanguageSelection
+                        multiple
+                        supportedTranslations={supportedTranslations}
+                        selectedLanguage={tgt_lang}
+                        onSelectionChange={(selected) => {
                             updateProperties({
-                                text: '',
-                                tgt_lang: [],
-                                translations: [],
-                                src_lang: selected,
-                                supportedTranslations: getSourceTargetPair(selected)
-                            })
-
-                        }}>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select source language" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                {
-                                    languages.map((m) => (
-                                        <SelectItem key={m.code} value={m.code}>
-                                            {m.language}
-                                        </SelectItem>
-                                    ))
-                                }
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div>
-                    <Label>Enter text to translate</Label>
-                    <Textarea
-                        value={text}
-                        className='w-full'
-                        onChange={(e) => {
-                            updateProperties({
-                                text: e.target.value
+                                tgt_lang: selected
                             })
                         }}
                     />
-                </div>
 
-                <div>
-                    <Label>Select translation language</Label>
-                    <div className="flex items-center gap-3 w-full flex-wrap mt-1">
+                    <Button
+                        className='w-full my-2'
+                        disabled={disableTranslateButton}
+                        onClick={translate}
+                    >
                         {
-                            supportedTranslations.map((m) => (
-                                <div key={m.code} className='flex gap-2 items-center'>
-                                    <Switch
-                                        key={`${src_lang}-${m.code}`}
-                                        id={`${src_lang}-${m.code}`}
-                                        disabled={m.code === src_lang}
-                                        onCheckedChange={(value) => {
-                                            if (value) {
-                                                updateProperties({
-                                                    tgt_lang: [...tgt_lang, m.code]
-                                                })
-                                            }
-                                            else {
-                                                updateProperties({
-                                                    tgt_lang: tgt_lang.filter(f => f !== m.code)
-                                                })
-                                            }
-                                        }} />
-                                    <Label htmlFor={m.code}>
-                                        {m.language}
-                                    </Label>
-                                </div>
-                            ))
+                            loading ? <AppSpinnerIcon className="animate-spin" /> : 'Start Translation'
                         }
-                    </div>
+                    </Button>
                 </div>
+            </div>
 
-                <Button
-                    className='w-full my-2'
-                    disabled={disableTranslateButton}
-                    onClick={translate}
-                >
-                    {
-                        loading ? <AppSpinnerIcon className="animate-spin" /> : 'Start Translation'
-                    }
-                </Button>
-
+            <div className="max-w-xl">
                 {
-                    translations.length > 0 ? <Table id="translations">
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[150px]">Language</TableHead>
-                                <TableHead>Translation</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {
-                                translations.map((m) => (
-                                    <TableRow key={m.language}>
-                                        <TableCell className="font-medium">
-                                            {m.language}
-                                        </TableCell>
-                                        <TableCell>
-                                            {m.translation}
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </Table> : ''
+                    translations.length > 0 ? <TranslatedList translations={translations} /> : ''
                 }
-
             </div>
         </div>
     )

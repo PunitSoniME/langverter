@@ -68,7 +68,8 @@ import {
     Plus,
     ArrowUpDown,
     ArrowUp,
-    ArrowDown
+    ArrowDown,
+    Copy
 } from 'lucide-react';
 
 export {
@@ -118,4 +119,5 @@ export {
     ArrowUpDown as AppArrowUpDownIcon,
     ArrowUp as AppArrowUpIcon,
     ArrowDown as AppArrowDownIcon,
+    Copy as AppCopyIcon
 }
