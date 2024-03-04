@@ -29,8 +29,8 @@ const navigation = [
 
 export default function Header() {
 
-    const { mode } = useDarkModeContext();
     const router = useRouter();
+    const { mode } = useDarkModeContext();
     const pathname = usePathname();
     const splitLocation = pathname.split("/");
 
@@ -62,7 +62,7 @@ export default function Header() {
             <div className="px-2 md:container h-16 flex items-center justify-between">
 
                 <Image
-                    className="block sm:hidden"
+                    className="block sm:hidden ml-1"
                     src={mode === 'light' ? '/dark-favicon.svg' : '/light-favicon.svg'}
                     alt="App Logo"
                     width={30}

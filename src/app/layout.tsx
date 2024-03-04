@@ -8,9 +8,9 @@ import dynamic from "next/dynamic";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { appName } from "@/helpers/client/utils";
 import { Toaster } from "@/components/ui/sonner"
+import { ConfirmationDialogProvider } from "@/providers/ConfirmationDialogProvider";
 
 import "./globals.css";
-import { ConfirmationDialogProvider } from "@/providers/ConfirmationDialogProvider";
 
 const Header = dynamic(() => import("@/components/header"));
 
@@ -62,11 +62,11 @@ export default function RootLayout({
       >
         <ProvidersTree>
           <Sheet>
-            <div className="flex flex-col gap-1 sm:gap-2">
+            <div className="flex flex-col">
 
               <Header />
 
-              <div className='container px-2 md:px-4'>
+              <div>
                 {children}
               </div>
 

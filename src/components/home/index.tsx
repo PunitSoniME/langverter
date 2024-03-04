@@ -29,7 +29,6 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-
 const languages = getSupportedSourceLanguages();
 
 const defaultSourceValue = languages.find(d => d.language === 'English')?.code || '';
@@ -91,7 +90,7 @@ export default function Home() {
                         defaultValue={src_lang}
                         onValueChange={(selected) => {
                             updateProperties({
-                                txt: '',
+                                text: '',
                                 tgt_lang: [],
                                 translations: [],
                                 src_lang: selected,
