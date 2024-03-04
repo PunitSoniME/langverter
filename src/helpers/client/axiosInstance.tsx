@@ -15,7 +15,7 @@ const axiosInstance = () => {
 
     const axiosInstanceInner = axios.create({
         baseURL: `${location.origin}/api`,
-        headers
+        // headers
     });
 
     axiosInstanceInner.interceptors.request.use((request) => {

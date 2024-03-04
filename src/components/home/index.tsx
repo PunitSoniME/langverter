@@ -64,24 +64,24 @@ export default function Home() {
                 tgt_lang
             };
 
-            const response = await axios({
-                method: 'POST',
-                url: '/api/convert',
-                data: obj,
-                // headers: {
-                //     'Content-Type': 'application/json'
-                // }
-            }) as any;
-
-            // const response = await postApi({
-            //     url: 'convert',
+            // const response = await axios({
+            //     method: 'POST',
+            //     url: '/api/convert',
             //     data: obj,
-            //     successMessage: "Translation completed"
+            //     // headers: {
+            //     //     'Content-Type': 'application/json'
+            //     // }
             // }) as any;
+
+            const response = await postApi({
+                url: 'convert',
+                data: obj,
+                successMessage: "Translation completed"
+            }) as any;
 
             updateProperties({
                 loading: false,
-                translations: response.data
+                translations: response
             });
         } catch (ex) {
             updateProperties({
@@ -100,6 +100,9 @@ export default function Home() {
                         defaultValue={src_lang}
                         onValueChange={(selected) => {
                             updateProperties({
+                                txt: '',
+                                tgt_lang: [],
+                                translations: [],
                                 src_lang: selected,
                                 supportedTranslations: getSourceTargetPair(selected)
                             })
