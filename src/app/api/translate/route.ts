@@ -22,9 +22,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
         const promises = tgt_lang.map((m: string) => {
 
-            const translationModels = models[src_lang][m];
-
-            const { model, src, tgt } = translationModels[0]
+            const { model, src, tgt } = models[src_lang][m];
 
             const payload = {
                 model: model,
