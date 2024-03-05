@@ -14,14 +14,12 @@ export default function SourceLanguage({ defaultValue, onLanguageChange }) {
             <Select
                 defaultValue={defaultValue}
                 onValueChange={(selected) => {
-                    onLanguageChange(selected)
-
-
+                    onLanguageChange(selected);
                 }}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select source language" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="h-[250px]">
                     <SelectGroup>
                         {
                             languages.map((m) => (

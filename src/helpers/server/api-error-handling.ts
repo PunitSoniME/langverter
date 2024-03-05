@@ -18,10 +18,16 @@ function withErrorHandler(fn) {
                 lineNumber: error.lineNumber    //  TODO: not getting line number yet
             });
 
+            let errorMessage = '';
+
             //  Reference - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/toString
             //  error.name = '';    //  To remove the prefix 'Error: User not found'
-            const splittedErrorMessage = error.message.split(":");
-            const errorMessage = splittedErrorMessage.length > 1 ? splittedErrorMessage[1].trim() : splittedErrorMessage[0].trim();
+            if (error.message.indexOf("Error") === 0) {
+                const splittedErrorMessage = error.message.split(":");
+                errorMessage = splittedErrorMessage.length > 1 ? splittedErrorMessage[1].trim() : splittedErrorMessage[0].trim();
+            } else {
+                errorMessage = error.message
+            }
 
             //  Reason of error.toString() is to generate the message without "Error" prefix in message
             //  We have removed that prefix in above error.name line

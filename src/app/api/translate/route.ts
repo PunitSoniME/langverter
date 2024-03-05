@@ -22,9 +22,20 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
         const promises = tgt_lang.map((m: string) => {
 
+            const translationModels = models[src_lang][m];
+
+            const { model, src, tgt } = translationModels[0]
+
             const payload = {
-                model: models[src_lang][m],
+                model: model,
                 inputs: text,
+            }
+
+            if (src || tgt) {
+                payload['parameters'] = {
+                    src_lang: src || src_lang,
+                    tgt_lang: tgt || m,
+                }
             }
 
             return hf.translation(payload).then(({ translation_text }) => {
