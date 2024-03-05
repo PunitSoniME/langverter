@@ -4,6 +4,46 @@ import axiosInstance from "./axiosInstance";
 export const appName = 'Langverter'
 
 
+export const quotes = [
+    {
+        quote: "Translation is not a matter of words only; it is a matter of making intelligible a whole culture.",
+        author: "Anthony Burgess"
+    },
+    {
+        quote: "Without translation, we would be living in provinces bordering on silence.",
+        author: "George Steiner"
+    },
+    {
+        quote: "To have another language is to possess a second soul.",
+        author: "Charlemagne"
+    },
+    {
+        quote: "Translation is the art of bridging cultures and fostering communication between diverse societies.",
+        author: "John Quijada"
+    },
+    {
+        quote: "Language is the road map of a culture. It tells you where its people come from and where they are going.",
+        author: "Rita Mae Brown"
+    },
+    {
+        quote: "Translation is the key to unlocking the door between cultures, enabling us to understand and appreciate the richness and diversity of our global community.",
+        author: "Paul Henderson"
+    },
+    {
+        quote: "Through translation, we traverse boundaries, embrace diversity, and enrich our understanding of the world.",
+        author: "Ngũgĩ wa Thiong'o"
+    },
+    {
+        quote: "Translation is not just about words; it is about conveying ideas, emotions, and the essence of a text in a different linguistic context.",
+        author: "Umberto Eco"
+    },
+    {
+        quote: "In a world where communication is key, translation serves as the bridge that connects people, allowing ideas and stories to transcend linguistic boundaries.",
+        author: "Marina Bhargava"
+    }
+];
+
+
 export const languages = [
     { language: 'Arabic', code: 'ar_AR' },
     { language: 'Czech', code: 'cs_CZ' },

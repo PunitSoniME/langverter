@@ -13,6 +13,7 @@ import { ConfirmationDialogProvider } from "@/providers/ConfirmationDialogProvid
 import "./globals.css";
 
 const Header = dynamic(() => import("@/components/header"));
+const Footer = dynamic(() => import("@/components/footer"));
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -62,13 +63,15 @@ export default function RootLayout({
       >
         <ProvidersTree>
           <Sheet>
-            <div className="flex flex-col">
+            <div>
 
               <Header />
 
               <div>
                 {children}
               </div>
+
+              <Footer />
 
               <Toaster richColors />
 

@@ -16,6 +16,7 @@ export default function LanguageSelection({ multiple = false, supportedTranslati
                     supportedTranslations.map((m) => (
                         <div key={m.code} className='flex gap-2 items-center'>
                             <Switch
+                                defaultChecked={selectedLanguage.some((s: string) => s === m.code)}
                                 key={`${uniqueId}-${m.code}`}
                                 id={`${uniqueId}-${m.code}`}
                                 // disabled={m.code === src_lang}

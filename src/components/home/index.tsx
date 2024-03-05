@@ -4,9 +4,10 @@ import React, { useReducer } from 'react'
 import { Button } from "@/components/ui/button";
 import { AppSpinnerIcon } from '@/icons';
 import { getSourceTargetPair, getSupportedSourceLanguages } from '@/helpers/server/utils';
-import { postApi } from '@/helpers/client/utils';
+import { postApi, quotes } from '@/helpers/client/utils';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import { Blockquote, Muted } from '../ui/typography';
 
 const SourceLanguage = dynamic(() => import('./SourceLanguage'));
 const InputToTranslate = dynamic(() => import('./InputToTranslate'));
@@ -16,6 +17,18 @@ const TranslatedList = dynamic(() => import('./TranslatedList'));
 const languages = getSupportedSourceLanguages();
 
 const defaultSourceValue = languages.find(d => d.language === 'English')?.code || '';
+
+const GenerateRandomQuote = () => {
+
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)] || quotes[0];
+
+    return <div className="p-8 my-3 flex flex-col items-center gap-3">
+        <Blockquote className="max-w-2xl">{randomQuote.quote} - {randomQuote.author}</Blockquote>
+
+        <AppSpinnerIcon className="animate-spin h-6 w-6" />
+
+    </div>
+}
 
 export default function Home() {
 
@@ -28,17 +41,17 @@ export default function Home() {
         supportedTranslations: getSourceTargetPair(defaultSourceValue),
         tgt_lang: [],
         translations: [],
-        loading: false
+        isTranslating: false
     })
 
-    const { text, src_lang, supportedTranslations, tgt_lang, translations, loading } = properties;
+    const { text, src_lang, supportedTranslations, tgt_lang, translations, isTranslating } = properties;
 
-    const disableTranslateButton = loading === true || text.trim() === '' || tgt_lang.length === 0;
+    const disableTranslateButton = isTranslating === true || text.trim() === '' || tgt_lang.length === 0;
 
     const translate = async () => {
         try {
             updateProperties({
-                loading: true,
+                isTranslating: true,
                 translations: []
             });
 
@@ -55,7 +68,7 @@ export default function Home() {
             }) as any;
 
             updateProperties({
-                loading: false,
+                isTranslating: false,
                 translations: response
             });
 
@@ -64,7 +77,7 @@ export default function Home() {
             }, 500)
         } catch (ex) {
             updateProperties({
-                loading: false
+                isTranslating: false
             });
         }
     }
@@ -93,6 +106,7 @@ export default function Home() {
 
                     <LanguageSelection
                         multiple
+                        key={src_lang}
                         supportedTranslations={supportedTranslations}
                         selectedLanguage={tgt_lang}
                         onSelectionChange={(selected) => {
@@ -102,17 +116,22 @@ export default function Home() {
                         }}
                     />
 
+
                     <Button
                         className='w-full my-2'
                         disabled={disableTranslateButton}
                         onClick={translate}
                     >
                         {
-                            loading ? <AppSpinnerIcon className="animate-spin" /> : 'Start Translation'
+                            isTranslating ? <AppSpinnerIcon className="animate-spin h-3 w-3" /> : 'Start Translation'
                         }
                     </Button>
                 </div>
             </div>
+
+            {
+                isTranslating ? <GenerateRandomQuote /> : ''
+            }
 
             <div className="max-w-2xl m-auto">
                 {

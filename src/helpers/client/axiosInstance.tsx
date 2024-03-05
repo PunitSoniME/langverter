@@ -18,7 +18,7 @@ const axiosInstance = () => {
         // headers
     });
 
-    axiosInstanceInner.defaults.timeout = 1000 * 30  //  1000 miliseconds * your desired seconds
+    axiosInstanceInner.defaults.timeout = 1000 * 60  //  1000 miliseconds * your desired seconds
 
     axiosInstanceInner.interceptors.request.use((request) => {
         return request;
@@ -26,10 +26,16 @@ const axiosInstance = () => {
         return Promise.reject(error);
     });
 
-    axiosInstanceInner.interceptors.response.use((response) =>
+    axiosInstanceInner.interceptors.response.use((response) => 
         new Promise((resolve) => {
             resolve(response);
         }), (error) => {
+
+            if (error.code === 'ECONNABORTED') {
+                return new Promise((_, reject) => {
+                    reject({ type: "error", message: error.message });
+                });
+            }
 
             if (error.code === 'ERR_BAD_RESPONSE') {
                 return new Promise((_, reject) => {

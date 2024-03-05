@@ -1,6 +1,7 @@
 import {
     AiOutlineGoogle,
     AiFillMobile,
+    AiFillGithub
 } from 'react-icons/ai';
 
 import {
@@ -69,13 +70,15 @@ import {
     ArrowUpDown,
     ArrowUp,
     ArrowDown,
-    Copy
+    Copy,
+    Linkedin,
 } from 'lucide-react';
 
 export {
     AiFillMobile as AppMobileIcon,
     AiOutlineGoogle as AppGoogleIcon,
-    
+    AiFillGithub as AppGithubIcon,
+
     BiUserCircle as AppUserCircleIcon,
     BiSolidFile as AppFileIcon,
 
@@ -119,5 +122,6 @@ export {
     ArrowUpDown as AppArrowUpDownIcon,
     ArrowUp as AppArrowUpIcon,
     ArrowDown as AppArrowDownIcon,
-    Copy as AppCopyIcon
+    Copy as AppCopyIcon,
+    Linkedin as AppLinkedinIcon,
 }
