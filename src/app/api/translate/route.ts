@@ -7,6 +7,8 @@ import { languages, models } from "@/helpers/server/utils";
 const HF_ACCESS_TOKEN = process.env.HUGGING_FACE_TRANSLATE_ACCESS_TOKEN;
 const hf = new HfInference(HF_ACCESS_TOKEN);
 
+export const maxDuration = 60;  //  60 seconds
+
 export const GET = withErrorHandler(async (req: NextRequest) => {
     try {
         return { success: true };

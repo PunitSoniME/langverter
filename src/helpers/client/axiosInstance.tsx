@@ -26,20 +26,20 @@ const axiosInstance = () => {
         return Promise.reject(error);
     });
 
-    axiosInstanceInner.interceptors.response.use((response) => 
+    axiosInstanceInner.interceptors.response.use((response) =>
         new Promise((resolve) => {
             resolve(response);
         }), (error) => {
 
             if (error.code === 'ECONNABORTED') {
                 return new Promise((_, reject) => {
-                    reject({ type: "error", message: error.message });
+                    reject({ type: "error", message: error?.message });
                 });
             }
 
             if (error.code === 'ERR_BAD_RESPONSE') {
                 return new Promise((_, reject) => {
-                    reject({ type: "error", message: error.response.data });
+                    reject({ type: "error", message: error?.response?.data });
                 })
             }
 
@@ -50,11 +50,11 @@ const axiosInstance = () => {
             }
 
             //  Show original error when development environment
-            let { message } = error.response.data;
+            let { message } = error?.response?.data || {};
 
             //  Show status code message for production environment
             if (isProduction) {
-                message = error.response.statusText;
+                message = error?.response?.statusText || 'Unexpected error occured';
             }
 
             if (error.code === "ERR_BAD_REQUEST") {
