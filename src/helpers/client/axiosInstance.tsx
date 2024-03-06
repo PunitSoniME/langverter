@@ -18,8 +18,6 @@ const axiosInstance = () => {
         // headers
     });
 
-    axiosInstanceInner.defaults.timeout = 1000 * 60  //  1000 miliseconds * your desired seconds
-
     axiosInstanceInner.interceptors.request.use((request) => {
         return request;
     }, error => {
@@ -35,6 +33,12 @@ const axiosInstance = () => {
                 return new Promise((_, reject) => {
                     reject({ type: "error", message: error?.message });
                 });
+            }
+
+            if (error.code === 'ERR_BAD_REQUEST') {
+                return new Promise((_, reject) => {
+                    reject({ type: "error", message: error?.response?.statusText });
+                })
             }
 
             if (error.code === 'ERR_BAD_RESPONSE') {

@@ -11,7 +11,6 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    swcMinify: true,
     compiler: {
         removeConsole: !isDevelopmentEnvironment, // Remove console.log in production
     },
@@ -28,4 +27,4 @@ const nextConfig = {
     // }
 };
 
-export default isDevelopmentEnvironment ? {} : withPWA(nextConfig);
+export default isDevelopmentEnvironment ? nextConfig : withPWA(nextConfig);

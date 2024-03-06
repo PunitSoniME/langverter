@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import { useProvidersTree } from 'react-helper-hooks';
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
-import DarkModeProvider from "@/providers/DarkModeProvider";
-import { Sheet } from "@/components/ui/sheet";
 import dynamic from "next/dynamic";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { appName } from "@/helpers/client/utils";
 import { Toaster } from "@/components/ui/sonner"
-import { ConfirmationDialogProvider } from "@/providers/ConfirmationDialogProvider";
+import { ProvidersTreeProvider } from "@/providers/ProvidersTreeProvider";
 
 import "./globals.css";
 
@@ -46,13 +42,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const buildProvidersTree = useProvidersTree();
-  const ProvidersTree = buildProvidersTree([
-    [TooltipProvider, { delayDuration: 0 }],
-    [DarkModeProvider],
-    [ConfirmationDialogProvider],
-  ]);
-
   return (
     <html lang="en" id="app-id" suppressHydrationWarning className="scroll-smooth">
       <body
@@ -61,24 +50,17 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ProvidersTree>
-          <Sheet>
-            <div>
+        <ProvidersTreeProvider>
+          <Header />
 
-              <Header />
+          <div>
+            {children}
+          </div>
 
-              <div>
-                {children}
-              </div>
+          <Footer />
 
-              <Footer />
-
-              <Toaster richColors />
-
-            </div>
-
-          </Sheet>
-        </ProvidersTree>
+          <Toaster richColors />
+        </ProvidersTreeProvider>
       </body>
     </html>
   );
