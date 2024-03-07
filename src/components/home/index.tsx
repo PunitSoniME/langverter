@@ -3,7 +3,7 @@
 import React, { useReducer } from 'react'
 import { Button } from "@/components/ui/button";
 import { AppSpinnerIcon } from '@/icons';
-import { getSourceTargetPair, getSupportedSourceLanguages } from '@/helpers/server/utils';
+import { getSourceTargetPair, getSupportedSourceLanguages, newSupportedLanguages } from '@/helpers/server/utils';
 import { postApi, quotes } from '@/helpers/client/utils';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -14,9 +14,7 @@ const InputToTranslate = dynamic(() => import('./InputToTranslate'));
 const LanguageSelection = dynamic(() => import('./LanguageSelection'));
 const TranslatedList = dynamic(() => import('./TranslatedList'));
 
-const languages = getSupportedSourceLanguages();
-
-const defaultSourceValue = languages.find(d => d.language === 'English')?.code || '';
+const defaultSourceValue = newSupportedLanguages.find(d => d.language === 'English')?.code || '';
 
 const GenerateRandomQuote = () => {
 
@@ -38,13 +36,12 @@ export default function Home() {
     }, {
         text: '',
         src_lang: defaultSourceValue,
-        supportedTranslations: getSourceTargetPair(defaultSourceValue),
         tgt_lang: [],
         translations: [],
         isTranslating: false
     })
 
-    const { text, src_lang, supportedTranslations, tgt_lang, translations, isTranslating } = properties;
+    const { text, src_lang, tgt_lang, translations, isTranslating } = properties;
 
     const disableTranslateButton = isTranslating === true || text.trim() === '' || tgt_lang.length === 0;
 
@@ -88,15 +85,17 @@ export default function Home() {
             <div className="max-w-[500px] m-auto">
                 <div className="flex flex-col gap-3">
 
-                    <SourceLanguage defaultValue={src_lang} onLanguageChange={(selected) => {
-                        updateProperties({
-                            text: '',
-                            tgt_lang: [],
-                            translations: [],
-                            src_lang: selected,
-                            supportedTranslations: getSourceTargetPair(selected)
-                        })
-                    }} />
+                    <SourceLanguage
+                        defaultValue={src_lang}
+                        disabledLanguages={tgt_lang}
+                        onLanguageChange={(selected) => {
+                            updateProperties({
+                                text: '',
+                                tgt_lang: [],
+                                translations: [],
+                                src_lang: selected,   //  getSourceTargetPair(selected)
+                            })
+                        }} />
 
                     <InputToTranslate text={text} onChange={(e) => {
                         updateProperties({
@@ -106,8 +105,8 @@ export default function Home() {
 
                     <LanguageSelection
                         multiple
+                        sourceLanguage={src_lang}
                         key={src_lang}
-                        supportedTranslations={supportedTranslations}
                         selectedLanguage={tgt_lang}
                         onSelectionChange={(selected) => {
                             updateProperties({

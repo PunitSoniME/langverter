@@ -14,6 +14,9 @@ const nextConfig = {
     compiler: {
         removeConsole: !isDevelopmentEnvironment, // Remove console.log in production
     },
+    experimental: {
+        serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
+    },
     // images: {
     //     remotePatterns: [
     //         {

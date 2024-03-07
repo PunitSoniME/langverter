@@ -1,13 +1,13 @@
 'use client'
 
-import { getSupportedSourceLanguages, } from '@/helpers/server/utils'
+import { getSupportedSourceLanguages, newSupportedLanguages, } from '@/helpers/server/utils'
 import React from 'react'
 import { Label } from '../ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
-const languages = getSupportedSourceLanguages();
+// const languages = getSupportedSourceLanguages();
 
-export default function SourceLanguage({ defaultValue, onLanguageChange }) {
+export default function SourceLanguage({ defaultValue, disabledLanguages, onLanguageChange }) {
     return (
         <div>
             <Label>Select source language</Label>
@@ -22,8 +22,8 @@ export default function SourceLanguage({ defaultValue, onLanguageChange }) {
                 <SelectContent className="h-[250px]">
                     <SelectGroup>
                         {
-                            languages.map((m) => (
-                                <SelectItem key={m.code} value={m.code}>
+                            newSupportedLanguages.map((m) => (
+                                <SelectItem key={m.code} value={m.code} disabled={disabledLanguages.some(s => s === m.code)}>
                                     {m.language}
                                 </SelectItem>
                             ))

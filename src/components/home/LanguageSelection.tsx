@@ -3,8 +3,9 @@
 import React, { useId } from 'react'
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
+import { newSupportedLanguages } from '@/helpers/server/utils';
 
-export default function LanguageSelection({ multiple = false, supportedTranslations, selectedLanguage, onSelectionChange }) {
+export default function LanguageSelection({ multiple = false, sourceLanguage, selectedLanguage, onSelectionChange }) {
 
     const uniqueId = useId();
 
@@ -13,13 +14,13 @@ export default function LanguageSelection({ multiple = false, supportedTranslati
             <Label>Select translation language</Label>
             <div className="flex items-center gap-3 w-full flex-wrap mt-1">
                 {
-                    supportedTranslations.map((m) => (
+                    newSupportedLanguages.map((m) => (
                         <div key={m.code} className='flex gap-2 items-center'>
                             <Switch
                                 defaultChecked={selectedLanguage.some((s: string) => s === m.code)}
                                 key={`${uniqueId}-${m.code}`}
                                 id={`${uniqueId}-${m.code}`}
-                                // disabled={m.code === src_lang}
+                                disabled={m.code === sourceLanguage}
                                 onCheckedChange={(value) => {
                                     if (multiple) {
                                         if (value) {

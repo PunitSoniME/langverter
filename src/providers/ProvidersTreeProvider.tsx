@@ -13,7 +13,7 @@ export const ProvidersTreeProvider = ({ children }) => {
     const ProvidersTree = buildProvidersTree([
         [TooltipProvider, { delayDuration: 0 }],
         [DarkModeProvider],
-        [ConfirmationDialogProvider],
+        // [ConfirmationDialogProvider],
     ]);
 
     return (
